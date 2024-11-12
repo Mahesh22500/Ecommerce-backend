@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  token:String,
   role: { type: String, default: "user" },
   addresses: { type: [Schema.Types.Mixed] },
   orders: { type: [Schema.Types.Mixed] },

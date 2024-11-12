@@ -14,6 +14,32 @@ export const createProduct = async (req, res) => {
   }
 };
 
+export const createMultipleProducts = async (req, res) => {
+
+  console.log("Inside multiple products");
+  try {
+    const data = req.body.products;
+    let docs = [];
+
+    for (let item of data) {
+      const product = new Product(item);
+
+      try{
+
+        const doc = await product.save();
+        docs.push(doc);
+      }
+      catch(err){
+
+      }
+    }
+
+    res.status(200).json(docs);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
 export const fetchProductById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -73,7 +99,6 @@ export const updateProduct = async (req, res) => {
     res.status(400).json(err);
   }
 };
-
 
 // export const fetchBrands = async(req,res)=>{
 

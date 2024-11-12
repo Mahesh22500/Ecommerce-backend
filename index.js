@@ -1,6 +1,7 @@
 import express from "express";
+import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-import cors from 'cors'
+import cors from "cors";
 
 import productRouter from "./routes/Product.js";
 import { userRouter } from "./routes/User.js";
@@ -17,7 +18,7 @@ const app = express();
 const main = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URL);
-    // console.log("mongodb connected");   
+    // console.log("mongodb connected");
   } catch (err) {
     // console.log(err);
   }
@@ -25,15 +26,32 @@ const main = async () => {
 
 main();
 
+const auth = async (req, res, next) => {
+  try {
+    const header = req.get("Authorization");
+    const token = header.split("Bearer ")[1];
+
+    console.log("token", token);
+
+    const decoded = await jwt.verify(token, process.env.SECRET_KEY);
+
+    if (decoded.email) next();
+    else res.sendStatus(401);
+  } catch (err) {
+    console.log("err", err);
+    res.status(400).json(err);
+  }
+};
+
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(cors())
+app.use(cors());
 
-app.use("/products", productRouter);
-app.use("/users",userRouter);
-app.use("/auth",authRouter);
-app.use("/cart",cartRouter);
-app.use("/orders",orderRouter);
+app.use("/products", auth, productRouter);
+app.use("/users", auth, userRouter);
+app.use("/auth", authRouter);
+app.use("/cart", auth, cartRouter);
+app.use("/orders", auth, orderRouter);
 
 app.listen(process.env.PORT, () => {
   // console.log("listening on port ", process.env.PORT);
