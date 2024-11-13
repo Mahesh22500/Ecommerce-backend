@@ -33,8 +33,8 @@ export const createUser = async (req, res) => {
 };
 
 export const checkUser = async (req, res) => {
-  // console.log("Inside check User ");
-  // console.log("req body", req.body);
+  console.log("Inside check User ");
+  console.log("req body", req.body);
   const email = req.body.email;
   try {
     const doc = await User.findOne({ email: email });

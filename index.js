@@ -49,7 +49,7 @@ const dir = import.meta.dirname
 app.use(express.static(path.resolve(dir,"build")))
 
 app.use(express.json());
-app.use(express.urlencoded());
+
 app.use(cors());
 
 app.use("/products", auth, productRouter);
