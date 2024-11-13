@@ -2,6 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import cors from "cors";
+import path from 'path'
 
 import productRouter from "./routes/Product.js";
 import { userRouter } from "./routes/User.js";
@@ -43,6 +44,10 @@ const auth = async (req, res, next) => {
   }
 };
 
+const dir = import.meta.dirname
+
+app.use(express.static(path.resolve(dir,"build")))
+
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(cors());
@@ -54,5 +59,5 @@ app.use("/cart", auth, cartRouter);
 app.use("/orders", auth, orderRouter);
 
 app.listen(process.env.PORT, () => {
-  // console.log("listening on port ", process.env.PORT);
+  console.log("listening on port ", process.env.PORT);
 });
