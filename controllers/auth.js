@@ -39,6 +39,8 @@ export const checkUser = async (req, res) => {
   try {
     const doc = await User.findOne({ email: email });
 
+    console.log("doc in db:",doc);
+
     if (doc) {  
       const ok = await bcrypt.compare(req.body.password, doc.password);
       if (ok) {
