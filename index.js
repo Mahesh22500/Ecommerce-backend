@@ -27,6 +27,13 @@ const main = async () => {
 
 main();
 
+// const connect = async () => {
+//   await mongoose.connect(process.env.MONGO_URL);
+//   console.log("database connected");
+// };
+
+// connect();
+
 const auth = async (req, res, next) => {
   try {
     const header = req.get("Authorization");

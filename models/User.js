@@ -7,6 +7,7 @@ const userSchema = new Schema({
   role: { type: String, default: "user" },
   addresses: { type: [Schema.Types.Mixed] },
   orders: { type: [Schema.Types.Mixed] },
+  imageUrl:{type:String}
 });
 
 const virtual = userSchema.virtual("id");
