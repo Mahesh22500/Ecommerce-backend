@@ -4,10 +4,23 @@ import bcrypt from "bcrypt";
 
 export const createUser = async (req, res) => {
   // console.log("Inside createUser");
-  // console.log("req.body", req.body);
+  console.log("req.body", req.body);
+
+  const email = req.body.email;
+
+
+  
+  const user = User.findOne({email})
+
+  if(user){
+    console.log("user already exists")
+    res.status(400).json({message:"user already exists"})
+    return;
+  }
 
   try {
     const user = new User(req.body);
+
     const token = await jwt.sign(
       {
         email: req.body.email,
@@ -25,7 +38,7 @@ export const createUser = async (req, res) => {
 
     user.password = hashedPassword;
 
-    const doc = await user.save();
+    const doc = await newUser.save();
     res.status(201).json(doc);
   } catch (err) {
     res.status(400).json(err);

@@ -53,7 +53,7 @@ const auth = async (req, res, next) => {
 
 const dir = import.meta.dirname
 
-app.use(express.static(path.resolve(dir,"build")))
+// app.use(express.static(path.resolve(dir,"build")))
 
 app.use(express.json());
 
@@ -64,6 +64,9 @@ app.use("/users", auth, userRouter);
 app.use("/auth", authRouter);
 app.use("/cart", auth, cartRouter);
 app.use("/orders", auth, orderRouter);
+// app.use("/",(req,res)=>{
+//   res.send("home")
+// })
 
 app.listen(process.env.PORT, () => {
   console.log("listening on port ", process.env.PORT);
