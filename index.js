@@ -34,7 +34,7 @@ main();
 
 // connect();
 
-const auth = async (req, res, next) => {
+ const auth = async (req, res, next) => {
   try {
     const header = req.get("Authorization");
     const token = header.split("Bearer ")[1];
